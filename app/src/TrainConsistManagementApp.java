@@ -1,18 +1,19 @@
 import java.util.*;
 
 /**
- * Combined Application:
- * - UC1: Welcome Message
- * - UC2: ArrayList (Passenger Bogies)
- * - UC3: HashSet (Unique Bogie IDs)
- * - UC4: Room Search (Read-only Inventory)
+ * FINAL COMBINED APPLICATION
  *
- * @author Sanjay
- * @version 1.0
+ * UC1  - Program Start
+ * UC2  - ArrayList (Passenger Bogies)
+ * UC3  - HashSet (Unique Bogie IDs)
+ * UC4A - LinkedList (Ordered Train Consist)
+ * UC5  - LinkedHashSet (Ordered + Unique Bogies)
+ * UC4B - Hotel Room Search (Read-Only)
  */
-public class CombinedApp {
 
-    // ===== UC4: Room Domain Model =====
+public class FinalCombinedApp {
+
+    // ===== HOTEL SYSTEM (UC4B) =====
     static class Room {
         String type;
         double price;
@@ -24,61 +25,55 @@ public class CombinedApp {
             this.amenities = amenities;
         }
 
-        void displayDetails() {
+        void display() {
             System.out.println("Room Type: " + type);
             System.out.println("Price: ₹" + price);
             System.out.println("Amenities: " + amenities);
         }
     }
 
-    // ===== UC4: Inventory =====
     static class Inventory {
-        private Map<String, Integer> availability = new HashMap<>();
+        private Map<String, Integer> data = new HashMap<>();
 
-        public void addRoom(String type, int count) {
-            availability.put(type, count);
+        void addRoom(String type, int count) {
+            data.put(type, count);
         }
 
-        public int getAvailability(String type) {
-            return availability.getOrDefault(type, 0);
+        int getAvailability(String type) {
+            return data.getOrDefault(type, 0);
         }
 
-        public Map<String, Integer> getAll() {
-            return availability;
+        Map<String, Integer> getAll() {
+            return data;
         }
     }
 
-    // ===== UC4: Search Service =====
     static class SearchService {
-        public static void search(Inventory inventory, Map<String, Room> roomDetails) {
+        static void search(Inventory inv, Map<String, Room> rooms) {
             System.out.println("\n===== Available Rooms =====");
 
-            for (String type : inventory.getAll().keySet()) {
-                int count = inventory.getAvailability(type);
+            for (String type : inv.getAll().keySet()) {
+                int count = inv.getAvailability(type);
 
-                // Only show available rooms
                 if (count > 0) {
-                    Room room = roomDetails.get(type);
-
-                    System.out.println("\n-------------------------");
-                    room.displayDetails();
-                    System.out.println("Available Rooms: " + count);
+                    System.out.println("\n-------------------");
+                    rooms.get(type).display();
+                    System.out.println("Available: " + count);
                 }
             }
 
-            System.out.println("\n(Search completed without modifying inventory)");
+            System.out.println("\n(Read-only search completed)");
         }
     }
 
-    // ===== MAIN METHOD =====
+    // ===== MAIN =====
     public static void main(String[] args) {
 
         // ===== UC1 =====
         System.out.println("==============================================");
         System.out.println("   Welcome to Train Consist Management App    ");
         System.out.println("              Version 1.0                    ");
-        System.out.println("==============================================");
-        System.out.println("Application started successfully.\n");
+        System.out.println("==============================================\n");
 
 
         // ===== UC2: ArrayList =====
@@ -88,46 +83,73 @@ public class CombinedApp {
         passengerBogies.add("AC Chair");
         passengerBogies.add("First Class");
 
-        System.out.println("Passenger Bogies after addition:");
+        System.out.println("Passenger Bogies:");
         System.out.println(passengerBogies);
 
         passengerBogies.remove("AC Chair");
-        System.out.println("\nAfter removing 'AC Chair':");
+
+        System.out.println("\nAfter Removal:");
         System.out.println(passengerBogies);
 
-        boolean exists = passengerBogies.contains("Sleeper");
-        System.out.println("\nIs 'Sleeper' present? " + exists);
-
-        System.out.println("\nFinal Passenger Bogies List:");
-        System.out.println(passengerBogies);
+        System.out.println("\nContains Sleeper? " + passengerBogies.contains("Sleeper"));
 
 
         // ===== UC3: HashSet =====
-        HashSet<String> bogieIDs = new HashSet<>();
+        HashSet<String> ids = new HashSet<>();
 
-        bogieIDs.add("BG101");
-        bogieIDs.add("BG102");
-        bogieIDs.add("BG103");
-        bogieIDs.add("BG101"); // duplicate
-        bogieIDs.add("BG102"); // duplicate
+        ids.add("BG101");
+        ids.add("BG102");
+        ids.add("BG103");
+        ids.add("BG101"); // duplicate
 
-        System.out.println("\nUnique Bogie IDs (duplicates removed):");
-        System.out.println(bogieIDs);
+        System.out.println("\nUnique Bogie IDs:");
+        System.out.println(ids);
 
 
-        // ===== UC4: Room Search =====
-        Inventory inventory = new Inventory();
+        // ===== UC4A: LinkedList =====
+        LinkedList<String> train = new LinkedList<>();
 
-        inventory.addRoom("Deluxe", 5);
-        inventory.addRoom("Suite", 0);
-        inventory.addRoom("Standard", 3);
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC");
+        train.add("Cargo");
+        train.add("Guard");
 
-        Map<String, Room> roomDetails = new HashMap<>();
+        train.add(2, "Pantry");   // insert at position
 
-        roomDetails.put("Deluxe", new Room("Deluxe", 3500, "WiFi, TV, AC"));
-        roomDetails.put("Suite", new Room("Suite", 7000, "WiFi, TV, AC, Jacuzzi"));
-        roomDetails.put("Standard", new Room("Standard", 2000, "WiFi, Fan"));
+        train.removeFirst();
+        train.removeLast();
 
-        SearchService.search(inventory, roomDetails);
+        System.out.println("\nOrdered Train Consist (LinkedList):");
+        System.out.println(train);
+
+
+        // ===== UC5: LinkedHashSet =====
+        LinkedHashSet<String> formation = new LinkedHashSet<>();
+
+        formation.add("Engine");
+        formation.add("Sleeper");
+        formation.add("Cargo");
+        formation.add("Guard");
+        formation.add("Sleeper"); // duplicate (ignored)
+
+        System.out.println("\nTrain Formation (LinkedHashSet - Ordered + Unique):");
+        System.out.println(formation);
+
+
+        // ===== UC4B: Hotel Room Search =====
+        Inventory inv = new Inventory();
+
+        inv.addRoom("Deluxe", 5);
+        inv.addRoom("Suite", 0);
+        inv.addRoom("Standard", 3);
+
+        Map<String, Room> rooms = new HashMap<>();
+
+        rooms.put("Deluxe", new Room("Deluxe", 3500, "WiFi, AC"));
+        rooms.put("Suite", new Room("Suite", 7000, "WiFi, Jacuzzi"));
+        rooms.put("Standard", new Room("Standard", 2000, "Fan"));
+
+        SearchService.search(inv, rooms);
     }
 }
