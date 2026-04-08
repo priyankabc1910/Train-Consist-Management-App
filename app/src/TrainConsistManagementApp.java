@@ -5,15 +5,16 @@ import java.util.*;
  *
  * UC1  - Program Start
  * UC2  - ArrayList (Passenger Bogies)
- * UC3  - HashSet (Unique Bogie IDs)
- * UC4A - LinkedList (Ordered Train Consist)
- * UC5  - LinkedHashSet (Ordered + Unique Bogies)
+ * UC3  - HashSet (Unique IDs)
+ * UC4A - LinkedList (Ordered Train)
+ * UC5  - LinkedHashSet (Ordered + Unique)
+ * UC6  - HashMap (Bogie Capacity Mapping)
  * UC4B - Hotel Room Search (Read-Only)
  */
 
 public class FinalCombinedApp {
 
-    // ===== HOTEL SYSTEM (UC4B) =====
+    // ===== HOTEL SYSTEM =====
     static class Room {
         String type;
         double price;
@@ -115,7 +116,7 @@ public class FinalCombinedApp {
         train.add("Cargo");
         train.add("Guard");
 
-        train.add(2, "Pantry");   // insert at position
+        train.add(2, "Pantry");
 
         train.removeFirst();
         train.removeLast();
@@ -131,13 +132,27 @@ public class FinalCombinedApp {
         formation.add("Sleeper");
         formation.add("Cargo");
         formation.add("Guard");
-        formation.add("Sleeper"); // duplicate (ignored)
+        formation.add("Sleeper"); // duplicate ignored
 
-        System.out.println("\nTrain Formation (LinkedHashSet - Ordered + Unique):");
+        System.out.println("\nTrain Formation (LinkedHashSet):");
         System.out.println(formation);
 
 
-        // ===== UC4B: Hotel Room Search =====
+        // ===== UC6: HashMap (Bogie Capacity) =====
+        HashMap<String, Integer> bogieCapacity = new HashMap<>();
+
+        bogieCapacity.put("Sleeper", 72);
+        bogieCapacity.put("AC Chair", 54);
+        bogieCapacity.put("First Class", 24);
+
+        System.out.println("\nBogie Capacity Mapping:");
+
+        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+            System.out.println(entry.getKey() + " → Capacity: " + entry.getValue());
+        }
+
+
+        // ===== HOTEL UC4 =====
         Inventory inv = new Inventory();
 
         inv.addRoom("Deluxe", 5);
