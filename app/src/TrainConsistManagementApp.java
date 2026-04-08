@@ -1,12 +1,14 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * TrainConsistManagementApp
  *
- * UC1 + UC2 Combined
+ * UC1 + UC2 + UC3 Combined
  * Demonstrates:
- * - Program execution (UC1)
- * - ArrayList operations for managing passenger bogies (UC2)
+ * - UC1: Program execution
+ * - UC2: ArrayList operations (Passenger Bogies)
+ * - UC3: HashSet (Unique Bogie IDs)
  *
  * @author Sanjay
  * @version 1.0
@@ -24,6 +26,7 @@ public class TrainConsistManagementApp {
         System.out.println("              Version 1.0                    ");
         System.out.println("==============================================");
         System.out.println("Application started successfully.\n");
+
 
         // ===== UC2: ArrayList Operations =====
 
@@ -51,5 +54,22 @@ public class TrainConsistManagementApp {
         // Final list state
         System.out.println("\nFinal Passenger Bogies List:");
         System.out.println(passengerBogies);
+
+
+        // ===== UC3: HashSet Operations (Unique Bogie IDs) =====
+
+        // Create HashSet for bogie IDs
+        HashSet<String> bogieIDs = new HashSet<>();
+
+        // Add bogie IDs (including duplicates)
+        bogieIDs.add("BG101");
+        bogieIDs.add("BG102");
+        bogieIDs.add("BG103");
+        bogieIDs.add("BG101"); // duplicate
+        bogieIDs.add("BG102"); // duplicate
+
+        // Display unique bogie IDs
+        System.out.println("\nUnique Bogie IDs (duplicates removed automatically):");
+        System.out.println(bogieIDs);
     }
 }
